@@ -65,7 +65,7 @@ const Save = ({
   attributes
 }) => {
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save({
-    "data-wp-context": '{ "remainingTime": ' + attributes.timeLimit + ' }'
+    "data-wp-context": '{"remainingTime":' + attributes.timeLimit + '}'
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     ...blockProps,

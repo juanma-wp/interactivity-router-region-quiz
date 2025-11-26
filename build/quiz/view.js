@@ -69,25 +69,9 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
 
-const questionSlugs = ['https://streams.wp.local/question-1', 'https://streams.wp.local/question-2', 'https://streams.wp.local/question-3', 'https://streams.wp.local/question-4'
-// 'question-5',
-// 'question-6',
-// 'question-7',
-// 'question-8',
-// 'question-9',
-// 'question-10',
-];
-const getRandomItems = (array, count) => array.slice() // Copy array
-.sort(() => Math.random() - 0.5) // Shuffle
-.slice(0, Math.min(count, array.length)); // Get first 'count' items
-
-const randomQuestionSlugs = getRandomItems(questionSlugs, 2);
 const {
   state
 } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('interactivity-router-region-quiz', {
-  state: {
-    randomQuestionSlugs
-  },
   actions: {
     navigate: (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.withSyncEvent)(function* (event) {
       const {
@@ -104,8 +88,8 @@ const {
   },
   callbacks: {
     initQuestion: () => {
-      const ctxServer = getServerContext();
-      const ctx = getContext();
+      const ctxServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
       ctx.remainingTime = ctxServer.remainingTime;
     },
     log: () => {

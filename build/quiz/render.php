@@ -11,12 +11,48 @@
  * @package block-development-examples
  */
 
-$time_limit = $attributes['timeLimit'];
+// Translated from view.js (8-29)
+
+// Original JS:
+// const questionSlugs = [
+// 'https://streams.wp.local/question-1',
+// 'https://streams.wp.local/question-2',
+// 'https://streams.wp.local/question-3',
+// 'https://streams.wp.local/question-4',
+// ];
+//
+// const getRandomItems = ( array, count ) =>
+// array
+// .slice() // Copy array
+// .sort( () => Math.random() - 0.5 ) // Shuffle
+// .slice( 0, Math.min( count, array.length ) ); // Get first 'count' items
+//
+// const randomQuestionSlugs = getRandomItems( questionSlugs, 2 );
+
+$question_slugs = array(
+	'https://streams.wp.local/question-1',
+	'https://streams.wp.local/question-2',
+	'https://streams.wp.local/question-3',
+	'https://streams.wp.local/question-4',
+);
+
+// PHP equivalent of getRandomItems
+function get_random_items( $array, $count ) {
+	$copy = $array;
+	shuffle( $copy );
+	return array_slice( $copy, 0, min( $count, count( $copy ) ) );
+}
+
+$random_question_slugs = get_random_items( $question_slugs, 2 );
+$time_limit            = $attributes['timeLimit'];
+
+// Make randomQuestionSlugs available to JS state as in view.js registration (see view.js line 13)
 wp_interactivity_state(
 	'interactivity-router-region-quiz',
 	array(
-		'timeLimit' => $time_limit,
-	)
+		'randomQuestionSlugs' => $random_question_slugs,
+		'timeLimit'           => $time_limit,
+	),
 );
 ?>
 <div
