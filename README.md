@@ -1,4 +1,4 @@
-# Interactive Router (regions)
+# Interactive Router Regions Quiz
 
 This example demonstrates how to use regions with the `@wordpress/interactivity-router` package (see [video](https://youtu.be/ffbTQ1jv-ZA))
 

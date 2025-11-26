@@ -3,8 +3,11 @@
  */
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 
-const Save = () => {
-	const blockProps = useBlockProps.save();
+
+const Save = ({ attributes} ) => {
+	const blockProps = useBlockProps.save({
+		"data-wp-context": '{ "remainingTime": ' + attributes.timeLimit + ' }',
+	});
 	return (
 		<div { ...blockProps }>
 			<InnerBlocks.Content />

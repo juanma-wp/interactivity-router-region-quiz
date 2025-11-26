@@ -86,7 +86,6 @@ const {
   state
 } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('interactivity-router-region-quiz', {
   state: {
-    a: 'dfdfdf',
     randomQuestionSlugs
   },
   actions: {
@@ -104,8 +103,17 @@ const {
     })
   },
   callbacks: {
+    initQuestion: () => {
+      const ctxServer = getServerContext();
+      const ctx = getContext();
+      ctx.remainingTime = ctxServer.remainingTime;
+    },
     log: () => {
-      console.log(state);
+      const serverState = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerState)();
+      console.log('serverState', serverState);
+      console.log('state', state);
+      state.timeLimit = serverState.timeLimit;
+      console.log("state", state);
     }
   }
 });

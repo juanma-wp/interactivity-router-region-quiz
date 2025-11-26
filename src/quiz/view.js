@@ -1,4 +1,9 @@
-import { store, withSyncEvent, getElement } from '@wordpress/interactivity';
+import {
+  store,
+  withSyncEvent,
+  getElement,
+  getServerState,
+} from "@wordpress/interactivity";
 
 const questionSlugs = [
 	'https://streams.wp.local/question-1',
@@ -23,7 +28,6 @@ const randomQuestionSlugs = getRandomItems( questionSlugs, 2 );
 
 const { state } = store( 'interactivity-router-region-quiz', {
 	state: {
-		a: 'dfdfdf',
 		randomQuestionSlugs,
 	},
 	actions: {
@@ -41,8 +45,18 @@ const { state } = store( 'interactivity-router-region-quiz', {
 		} ),
 	},
 	callbacks: {
+		initQuestion: () => {
+			const ctxServer = getServerContext();
+			const ctx = getContext();
+			
+			ctx.remainingTime = ctxServer.remainingTime; 
+		},
 		log: () => {
-			console.log( state );
+			const serverState = getServerState();
+			console.log( 'serverState', serverState );
+			console.log( 'state', state );
+			state.timeLimit = serverState.timeLimit;
+			console.log("state", state);
 		},
 	},
 } );
