@@ -72,6 +72,9 @@ __webpack_require__.r(__webpack_exports__);
 const {
   state
 } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('interactivity-router-region-quiz', {
+  state: {
+    visitedQuestionSlugs: []
+  },
   actions: {
     navigate: (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.withSyncEvent)(function* (event) {
       const {
@@ -85,18 +88,27 @@ const {
       console.log(ref.href);
       yield actions.navigate(ref.href);
     })
+    // log: () => {
+    // 	console.log("log");
+    // 	const ctxServer = getServerContext();
+    // 	const ctx = getContext();
+    // 	console.log("serverContext", ctxServer);
+    // 	console.log("context", ctx);
+    // },
   },
   callbacks: {
     initQuestion: () => {
       const ctxServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
       const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      ctx.remainingTime = ctxServer.remainingTime;
-    },
-    log: () => {
-      const serverState = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerState)();
-      console.log('serverState', serverState);
-      console.log('state', state);
-      state.timeLimit = serverState.timeLimit;
+      console.log("serverContext", ctxServer);
+      console.log("context", ctx);
+      ctx.timeLimit = ctxServer.timeLimit;
+      console.log("context", ctx);
+      const {
+        ref
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getElement)();
+      console.log("ref", ref);
+      state.visitedQuestionSlugs.push(ref.href);
       console.log("state", state);
     }
   }

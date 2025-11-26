@@ -8,6 +8,9 @@ import {
 } from "@wordpress/interactivity";
 
 const { state } = store( 'interactivity-router-region-quiz', {
+	state: {
+		visitedQuestionSlugs: [],
+	},
 	actions: {
 		navigate: withSyncEvent( function* ( event ) {
 			const { ref } = getElement();
@@ -21,19 +24,26 @@ const { state } = store( 'interactivity-router-region-quiz', {
 
 			yield actions.navigate( ref.href );
 		} ),
+		// log: () => {
+		// 	console.log("log");
+		// 	const ctxServer = getServerContext();
+		// 	const ctx = getContext();
+		// 	console.log("serverContext", ctxServer);
+		// 	console.log("context", ctx);
+		// },
 	},
 	callbacks: {
 		initQuestion: () => {
 			const ctxServer = getServerContext();
 			const ctx = getContext();
+			console.log("serverContext", ctxServer);
+			console.log("context", ctx);
+			ctx.timeLimit = ctxServer.timeLimit;
+			console.log("context", ctx);
 
-			ctx.remainingTime = ctxServer.remainingTime; 
-		},
-		log: () => {
-			const serverState = getServerState();
-			console.log( 'serverState', serverState );
-			console.log( 'state', state );
-			state.timeLimit = serverState.timeLimit;
+			const { ref } = getElement();
+			console.log("ref", ref);
+			state.visitedQuestionSlugs.push( ref.href );
 			console.log("state", state);
 		},
 	},
