@@ -59,11 +59,15 @@ $context = array(
 // Add slug-specific properties
 if ( $current_slug === 'question-1' ) {
 	error_log( '🔴 current_slug is question-1' );
-	$context['newField']  = 'new field';
+	$context['newField1'] = 'new field';
 	$context['extraData'] = 'question 1 data';
 } elseif ( $current_slug === 'question-2' ) {
-	$context['customField'] = 'question 2 specific';
-}
+	$context['customField2'] = 'question 2 specific';
+} elseif ( $current_slug === 'question-3' ) {
+	$context['customField3'] = 'question 3 specific';
+} elseif ( $current_slug === 'question-4' ) {
+	$context['customField4'] = 'question 4 specific';
+
 ?>
 
 <div
