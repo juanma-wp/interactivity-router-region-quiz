@@ -69,25 +69,22 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
 
-const questionSlugs = ['https://streams.wp.local/question-1', 'https://streams.wp.local/question-2', 'https://streams.wp.local/question-3', 'https://streams.wp.local/question-4'
-// 'question-5',
-// 'question-6',
-// 'question-7',
-// 'question-8',
-// 'question-9',
-// 'question-10',
-];
-const getRandomItems = (array, count) => array.slice() // Copy array
-.sort(() => Math.random() - 0.5) // Shuffle
-.slice(0, Math.min(count, array.length)); // Get first 'count' items
-
-const randomQuestionSlugs = getRandomItems(questionSlugs, 2);
 const {
   state
-} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('interactivity-router-region-quiz', {
+} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)("interactivity-router-region-quiz", {
   state: {
-    a: 'dfdfdf',
-    randomQuestionSlugs
+    visitedQuestionSlugs: [],
+    get itemSlug() {
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      return ctx.item.split("/").pop();
+    },
+    get questionHref() {
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      return !state.questionIsVisited ? ctx.item : null;
+    },
+    get questionIsVisited() {
+      return state.visitedQuestionSlugs.includes(state.itemSlug);
+    }
   },
   actions: {
     navigate: (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.withSyncEvent)(function* (event) {
@@ -102,10 +99,23 @@ const {
       console.log(ref.href);
       yield actions.navigate(ref.href);
     })
+    // log: () => {
+    // 	console.log("log");
+    // 	const ctxServer = getServerContext();
+    // 	const ctx = getContext();
+    // 	console.log("serverContext", ctxServer);
+    // 	console.log("context", ctx);
+    // },
   },
   callbacks: {
-    log: () => {
-      console.log(state);
+    initQuestion: () => {
+      const {
+        currentSlug,
+        timeLimit
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      ctx.timeLimit = timeLimit;
+      state.visitedQuestionSlugs.push(currentSlug);
     }
   }
 });

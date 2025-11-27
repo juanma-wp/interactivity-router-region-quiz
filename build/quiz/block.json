@@ -14,9 +14,12 @@
     "region",
     "interactivity-api"
   ],
-  "allowedBlocks": [
-    "block-development-examples/interactivity-router-region-question"
-  ],
+  "attributes": {
+    "timeLimit": {
+      "type": "number",
+      "default": 1
+    }
+  },
   "supports": {
     "interactivity": true
   },

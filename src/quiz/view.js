@@ -1,48 +1,52 @@
-import { store, withSyncEvent, getElement } from '@wordpress/interactivity';
+import {
+  store,
+  withSyncEvent,
+  getElement,
+  getServerState,
+  getServerContext,
+  getContext,
+} from "@wordpress/interactivity";
 
-const questionSlugs = [
-	'https://streams.wp.local/question-1',
-	'https://streams.wp.local/question-2',
-	'https://streams.wp.local/question-3',
-	'https://streams.wp.local/question-4',
-	// 'question-5',
-	// 'question-6',
-	// 'question-7',
-	// 'question-8',
-	// 'question-9',
-	// 'question-10',
-];
+const { state } = store("interactivity-router-region-quiz", {
+  state: {
+    visitedQuestionSlugs: [],
+    get itemSlug() {
+      const ctx = getContext();
+      return ctx.item.split("/").pop();
+    },
+    get questionHref() {
+		const ctx = getContext();
+      return !state.questionIsVisited ? ctx.item : null;
+    },
+    get questionIsVisited() {
+      return state.visitedQuestionSlugs.includes(state.itemSlug);
+    },
+  },
+  actions: {
+    navigate: withSyncEvent(function* (event) {
+      const { ref } = getElement();
+      event.preventDefault();
 
-const getRandomItems = ( array, count ) =>
-	array
-		.slice() // Copy array
-		.sort( () => Math.random() - 0.5 ) // Shuffle
-		.slice( 0, Math.min( count, array.length ) ); // Get first 'count' items
+      const { actions } = yield import("@wordpress/interactivity-router");
+      console.log(ref);
+      console.log(ref.href);
 
-const randomQuestionSlugs = getRandomItems( questionSlugs, 2 );
-
-const { state } = store( 'interactivity-router-region-quiz', {
-	state: {
-		a: 'dfdfdf',
-		randomQuestionSlugs,
-	},
-	actions: {
-		navigate: withSyncEvent( function* ( event ) {
-			const { ref } = getElement();
-			event.preventDefault();
-
-			const { actions } = yield import(
-				'@wordpress/interactivity-router'
-			);
-			console.log( ref );
-			console.log( ref.href );
-
-			yield actions.navigate( ref.href );
-		} ),
-	},
-	callbacks: {
-		log: () => {
-			console.log( state );
-		},
-	},
-} );
+      yield actions.navigate(ref.href);
+    }),
+    // log: () => {
+    // 	console.log("log");
+    // 	const ctxServer = getServerContext();
+    // 	const ctx = getContext();
+    // 	console.log("serverContext", ctxServer);
+    // 	console.log("context", ctx);
+    // },
+  },
+  callbacks: {
+    initQuestion: () => {
+      const { currentSlug, timeLimit } = getServerContext();
+      const ctx = getContext();
+      ctx.timeLimit = timeLimit;
+      state.visitedQuestionSlugs.push(currentSlug);
+    },
+  },
+});

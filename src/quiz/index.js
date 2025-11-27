@@ -18,7 +18,8 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import Edit from './edit';
 import metadata from './block.json';
-
+import save from './save';
+import './style.scss';
 /**
  * Every block starts by registering a new block type definition.
  *
@@ -29,4 +30,5 @@ registerBlockType( metadata.name, {
 	 * @see ./edit.js
 	 */
 	edit: Edit,
+	save: save,
 } );
