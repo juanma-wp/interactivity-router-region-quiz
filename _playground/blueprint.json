@@ -5,14 +5,17 @@
   "features": {
     "networking": true
   },
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "beta"
+  },
   "steps": [
     {
       "step": "installPlugin",
       "pluginData": {
         "resource": "git:directory",
         "url": "https://github.com/juanma-wp/interactivity-router-region-quiz",
-        "ref": "HEAD",
-        "path": "."
+        "ref": "HEAD"
       },
       "options": {
         "activate": true
