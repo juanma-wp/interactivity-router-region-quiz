@@ -42,7 +42,7 @@
       "step": "importWxr",
       "file": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/juanma-wp/interactivity-router-region-quiz/trunk/_playground/export.xml"
+        "url": "https://raw.githubusercontent.com/juanma-wp/interactivity-router-region-quiz/refs/heads/main/_playground/export.xml"
       }
     }
   ]
