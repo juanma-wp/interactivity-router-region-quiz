@@ -48,9 +48,32 @@ const { state } = store("interactivity-router-region-quiz", {
   callbacks: {
     log: () => {
       const stateServer = getServerState();
-      if (stateServer.extraData) {
-        console.log("👀 We have extraData!", stateServer.extraData);
+
+      // Get all keys from both objects
+      const serverKeys = Object.keys(stateServer);
+      const clientKeys = Object.keys(state);
+
+      // Find properties that exist in stateServer but not in state
+      const serverOnlyProps = serverKeys.filter(key => !clientKeys.includes(key));
+
+      if (serverOnlyProps.length > 0) {
+        console.log("🆕 Server state has additional properties not in client state:");
+        serverOnlyProps.forEach(prop => {
+          console.log(`  - ${prop}:`, stateServer[prop]);
+        });
       }
+      else {
+        console.log("→ No additional properties from server state.");
+      }
+
+      // Log comparison summary
+      console.log("📊 State comparison:", {
+        serverPropsCount: serverKeys.length,
+        clientPropsCount: clientKeys.length,
+        serverOnlyProps: serverOnlyProps,
+        serverKeys: serverKeys,
+        clientKeys: clientKeys
+      });
     },
 
     startTimer: () => {
@@ -75,7 +98,7 @@ const { state } = store("interactivity-router-region-quiz", {
       // Start new timer if timeLimit > 0
       if (contextServer.timeLimit > 0) {
         state.timer = contextServer.timeLimit;
-        console.log("🟢 Starting timer for", currentSlug, "with", state.timer, "seconds");
+        console.log("⏱️ Starting timer for", currentSlug, "with", state.timer, "seconds");
 
         state.intervalId = setInterval(() => {
           state.timer--;
