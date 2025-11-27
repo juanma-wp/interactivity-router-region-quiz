@@ -28,9 +28,12 @@ if ( ! function_exists( 'get_random_items' ) ) {
 $random_slugs = get_random_items( $question_slugs, 2 );
 
 // Build full URLs from the random slugs
-$random_question_slugs = array_map( function( $slug ) {
-	return home_url( '/' . $slug );
-}, $random_slugs );
+$random_question_slugs = array_map(
+	function ( $slug ) {
+		return home_url( '/' . $slug );
+	},
+	$random_slugs
+);
 $time_limit            = $attributes['timeLimit'];
 
 // Log the current page URL/slug
@@ -38,7 +41,7 @@ $current_url = home_url( $_SERVER['REQUEST_URI'] );
 error_log( 'Current page URL: ' . $current_url );
 
 // Get just the slug/path
-$current_slug = parse_url( $current_url, PHP_URL_PATH );
+$current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
 error_log( 'Current page slug/path: ' . $current_slug );
 
 // Get the server URL domain
@@ -88,8 +91,15 @@ $context = array(
 	<!-- <button data-wp-on--click="actions.log">Log</button> -->
 	
 	<template data-wp-each="state.randomQuestionSlugs">
-		<a data-wp-on--click="actions.navigate" data-wp-bind--href="context.item" data-wp-text="context.item"></a>
+		<a 
+		data-wp-on--click="actions.navigate" 
+		data-wp-bind--href="state.questionHref" 
+		data-wp-text="state.itemSlug"
+		data-wp-class--is-visited="state.questionIsVisited"
+		></a>
 	</template>
 	
-
+	<p>
+		<a href="<?php echo home_url( '/quiz' ); ?>">Reset Quiz</a>
+	</p>
 </div>

@@ -1,0 +1,19 @@
+.is-visited, .is-visited:hover {
+	color: red;
+	text-decoration: line-through;
+}
+
+.question-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.question-list li {
+	display: inline-block;
+	margin-right: 10px;
+}

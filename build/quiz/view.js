@@ -71,9 +71,20 @@ __webpack_require__.r(__webpack_exports__);
 
 const {
   state
-} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)('interactivity-router-region-quiz', {
+} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)("interactivity-router-region-quiz", {
   state: {
-    visitedQuestionSlugs: []
+    visitedQuestionSlugs: [],
+    get itemSlug() {
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      return ctx.item.split("/").pop();
+    },
+    get questionHref() {
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      return !state.questionIsVisited ? ctx.item : null;
+    },
+    get questionIsVisited() {
+      return state.visitedQuestionSlugs.includes(state.itemSlug);
+    }
   },
   actions: {
     navigate: (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.withSyncEvent)(function* (event) {
@@ -98,18 +109,13 @@ const {
   },
   callbacks: {
     initQuestion: () => {
-      const ctxServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
-      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      console.log("serverContext", ctxServer);
-      console.log("context", ctx);
-      console.log("state", state);
-      ctx.timeLimit = ctxServer.timeLimit;
-      console.log("context", ctx);
       const {
-        currentSlug
-      } = ctxServer;
+        currentSlug,
+        timeLimit
+      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
+      ctx.timeLimit = timeLimit;
       state.visitedQuestionSlugs.push(currentSlug);
-      console.log("state", state);
     }
   }
 });
