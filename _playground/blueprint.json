@@ -1,0 +1,49 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/quiz",
+  "login": true,
+  "features": {
+    "networking": true
+  },
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "git:directory",
+        "url": "https://github.com/juanma-wp/-interactivity-router-region-quiz.",
+        "ref": "HEAD",
+        "path": "."
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "git:directory",
+        "url": "https://github.com/WordPress/block-development-examples",
+        "ref": "HEAD",
+        "path": "plugins/my-first-interactive-block"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/mu-plugins/rewrite.php",
+      "data": "<?php add_action( 'after_setup_theme', function() { global $wp_rewrite; $wp_rewrite->set_permalink_structure('/%postname%/'); $wp_rewrite->flush_rules(); } );"
+    },
+    {
+      "step": "resetData"
+    },
+    {
+      "step": "importWxr",
+      "file": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/WordPress/block-development-examples/trunk/plugins/interactivity-router-2f43f8/_playground/export.xml"
+      }
+    }
+  ]
+}
