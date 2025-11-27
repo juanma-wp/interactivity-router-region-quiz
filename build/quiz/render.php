@@ -42,14 +42,6 @@ $state = array(
 	'defaultField'        => 'default value',
 );
 
-// Add slug-specific properties
-if ( $current_slug === 'question-1' ) {
-	$state['newField']  = 'new field';
-	$state['extraData'] = 'question 1 data';
-} elseif ( $current_slug === 'question-2' ) {
-	$state['customField'] = 'question 2 specific';
-}
-
 $current_url  = home_url( $_SERVER['REQUEST_URI'] );
 $current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
 
@@ -64,6 +56,14 @@ $context = array(
 	'currentSlug' => $current_slug,
 );
 
+// Add slug-specific properties
+if ( $current_slug === 'question-1' ) {
+	error_log( '🔴 current_slug is question-1' );
+	$context['newField']  = 'new field';
+	$context['extraData'] = 'question 1 data';
+} elseif ( $current_slug === 'question-2' ) {
+	$context['customField'] = 'question 2 specific';
+}
 ?>
 
 <div
