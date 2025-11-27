@@ -1,5 +1,8 @@
 # Interactive Router Regions Quiz
 
+[![](https://img.shields.io/badge/playground-live%20preview-blue?logo=wordpress)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/juanma-wp/interactivity-router-region-quiz/refs/heads/main/_playground/blueprint.json)
+
+
 An interactive quiz WordPress block demonstrating client-side routing using the WordPress Interactivity API router functionality with regions.
 
 ## Overview
