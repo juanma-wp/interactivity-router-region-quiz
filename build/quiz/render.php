@@ -36,11 +36,16 @@ $random_question_slugs = array_map(
 );
 $time_limit            = $attributes['timeLimit'];
 
+
+
 // Default state for all pages
 $state = array(
 	'randomQuestionSlugs' => $random_question_slugs,
 	'defaultField'        => 'default value',
 );
+
+$current_url  = home_url( $_SERVER['REQUEST_URI'] );
+$current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
 
 // Add slug-specific properties
 if ( $current_slug === 'question-1' ) {
@@ -80,7 +85,6 @@ $context = array(
 		<hr>
 		<p>Time limit: <span data-wp-text="context.timeLimit"></span></p>
 	</div>
-	<!-- <button data-wp-on--click="actions.log">Log</button> -->
 	
 	<template data-wp-each="state.randomQuestionSlugs">
 		<a 
