@@ -45,6 +45,20 @@ $state = array(
 $current_url  = home_url( $_SERVER['REQUEST_URI'] );
 $current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
 
+// Add slug-specific properties.
+if ( $current_slug === 'question-1' ) {
+	$state['newField1'] = 'new field';
+	$state['extraData'] = 'question 1 data';
+} elseif ( $current_slug === 'question-2' ) {
+	$state['customField2'] = 'question 2 specific';
+} elseif ( $current_slug === 'question-3' ) {
+	$state['customField3'] = 'question 3 specific';
+} elseif ( $current_slug === 'question-4' ) {
+	$state['customField4'] = 'question 4 specific';
+}
+
+
+
 // Make state available to JS
 wp_interactivity_state(
 	'interactivity-router-region-quiz',
@@ -55,18 +69,6 @@ $context = array(
 	'timeLimit'   => $time_limit,
 	'currentSlug' => $current_slug,
 );
-
-// Add slug-specific properties
-if ( $current_slug === 'question-1' ) {
-	error_log( '🔴 current_slug is question-1' );
-	$context['newField1'] = 'new field';
-	$context['extraData'] = 'question 1 data';
-} elseif ( $current_slug === 'question-2' ) {
-	$context['customField2'] = 'question 2 specific';
-} elseif ( $current_slug === 'question-3' ) {
-	$context['customField3'] = 'question 3 specific';
-} elseif ( $current_slug === 'question-4' ) {
-	$context['customField4'] = 'question 4 specific';
 
 ?>
 
