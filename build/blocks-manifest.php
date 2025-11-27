@@ -22,7 +22,7 @@ return array(
 		'attributes' => array(
 			'timeLimit' => array(
 				'type' => 'number',
-				'default' => 1
+				'default' => 0
 			)
 		),
 		'supports' => array(

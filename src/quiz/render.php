@@ -50,6 +50,9 @@ if ( $current_slug === 'question-1' ) {
 	$state['customField'] = 'question 2 specific';
 }
 
+$current_url  = home_url( $_SERVER['REQUEST_URI'] );
+$current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
+
 // Make state available to JS
 wp_interactivity_state(
 	'interactivity-router-region-quiz',
@@ -72,13 +75,17 @@ $context = array(
 		data-wp-router-region="region-example-interactivity-router-region-quiz"
 		data-wp-watch---initQuestion="callbacks.initQuestion"
 		data-wp-watch---log="callbacks.log"
+		data-wp-watch---startTimer="callbacks.startTimer"
 		<?php echo wp_kses_data( wp_interactivity_data_wp_context( $context ) ); ?>
 	>	
 		<div>
 			<?php echo wp_kses_post( $content ); ?>
 		</div>
 		<hr>
-		<p>Time limit: <span data-wp-text="context.timeLimit"></span></p>
+		<div class="time-remaining">
+			<p data-wp-bind--hidden="!context.timeLimit">Time limit: <span data-wp-text="context.timeLimit"></span></p>
+			<p data-wp-bind--hidden="!state.timer">Time remaining: <span data-wp-text="state.timer"></span></p>
+		</div>
 	</div>
 	<!-- <button data-wp-on--click="actions.log">Log</button> -->
 	
