@@ -208,7 +208,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"lightbox":{"enabled":true},"id":98,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://whats-new-2.wp.local/wp-content/uploads/2025/11/image-1024x853.png" alt="" class="wp-image-98"/></figure>
+<figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/juanma-wp/interactivity-router-region-quiz/main/_playground/assets/image.png" alt="" class="wp-image-98"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:block-development-examples/interactivity-router-region-quiz -->]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
