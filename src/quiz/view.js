@@ -7,12 +7,11 @@ import {
   getContext,
 } from "@wordpress/interactivity";
 
-const { state, actions } = store("interactivity-router-region-quiz", {
+const { state } = store("interactivity-router-region-quiz", {
   state: {
     visitedQuestionSlugs: [],
-    intervalId: null,
     timer: 0,
-    timedQuestions: [],  // Track questions that have had timers
+    currentTimerPage: null,
     get itemSlug() {
       const ctx = getContext();
       return ctx.item.split("/").pop();
@@ -24,6 +23,12 @@ const { state, actions } = store("interactivity-router-region-quiz", {
     get questionIsVisited() {
       return state.visitedQuestionSlugs.includes(state.itemSlug);
     },
+    get timerText() {
+      if (state.timer < 0) {
+        return ""
+      }
+      return state.timer > 0 ? `🟢 Time remaining: ${state.timer} seconds` : stateNull;
+    },
   },
   actions: {
     stopTimer: () => {
@@ -32,7 +37,6 @@ const { state, actions } = store("interactivity-router-region-quiz", {
         state.intervalId = null;
       }
     },
-
     navigate: withSyncEvent(function* (event) {
       const { ref } = getElement();
       event.preventDefault();
@@ -48,45 +52,44 @@ const { state, actions } = store("interactivity-router-region-quiz", {
         console.log("👀 We have extraData!", stateServer.extraData);
       }
     },
+
     startTimer: () => {
       const ctx = getContext();
       const contextServer = getServerContext();
       const currentSlug = contextServer.currentSlug;
 
-      // Only start timer if timeLimit exists and is greater than 0
-      if (!ctx.timeLimit || ctx.timeLimit <= 0) {
-        // Clear timer if timeLimit is 0
-        if (state.intervalId) {
-          clearInterval(state.intervalId);
-          state.intervalId = null;
-          state.timer = 0;
-        }
+      // Only run if we're on a different page
+      if (state.currentTimerPage === currentSlug) {
         return;
       }
 
-      // Only start a new timer if we haven't already timed this question
-      if (!state.timedQuestions.includes(currentSlug)) {
-        // Clear any existing timer first
-        if (state.intervalId) {
-          clearInterval(state.intervalId);
-          state.intervalId = null;
-        }
+      // Update the current page
+      state.currentTimerPage = currentSlug;
 
-        // Mark this question as timed
-        state.timedQuestions.push(currentSlug);
-        state.timer = ctx.timeLimit;
+      // Stop any existing timer
+      if (state.intervalId) {
+        clearInterval(state.intervalId);
+        state.intervalId = null;
+      }
+
+      // Start new timer if timeLimit > 0
+      if (contextServer.timeLimit > 0) {
+        state.timer = contextServer.timeLimit;
         console.log("🟢 Starting timer for", currentSlug, "with", state.timer, "seconds");
 
         state.intervalId = setInterval(() => {
           state.timer--;
-          console.log("🔴 state.timer", state.timer);
+          // console.log("🔴 state.timer", state.timer);
           if (state.timer <= 0) {
             clearInterval(state.intervalId);
             state.intervalId = null;
           }
         }, 1000);
+      } else {
+        state.timer = 0;
       }
     },
+
     initQuestion: () => {
       const contextServer = getServerContext();
       const stateServer = getServerState();

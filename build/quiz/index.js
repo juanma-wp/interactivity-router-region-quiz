@@ -8,7 +8,7 @@
   \*****************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-development-examples/interactivity-router-region-quiz","version":"0.1.0","title":"Interactivity Router Region Quiz","category":"widgets","icon":"media-interactive","description":"Interactive quiz example using the Interactivity Router API","example":{},"keywords":["quiz","router","region","interactivity-api"],"attributes":{"timeLimit":{"type":"number","default":0}},"supports":{"interactivity":true},"textdomain":"block-development-examples","editorScript":"file:./index.js","style":"file:./style-index.css","render":"file:./render.php","viewScriptModule":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-development-examples/interactivity-router-region-quiz","version":"0.1.0","title":"Interactivity Router Region Quiz","category":"widgets","icon":"media-interactive","description":"Interactive quiz example using the Interactivity Router API","example":{},"keywords":["quiz","router","region","interactivity-api"],"attributes":{"timeLimit":{"type":"number","default":-1}},"supports":{"interactivity":true},"textdomain":"block-development-examples","editorScript":"file:./index.js","style":"file:./style-index.css","render":"file:./render.php","viewScriptModule":"file:./view.js"}');
 
 /***/ }),
 

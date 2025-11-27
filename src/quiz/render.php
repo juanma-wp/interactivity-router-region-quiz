@@ -70,21 +70,20 @@ $context = array(
 	<?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>
 	data-wp-interactive="interactivity-router-region-quiz"
 >
-	<div 
+	<div
 		data-wp-interactive="interactivity-router-region-quiz"
 		data-wp-router-region="region-example-interactivity-router-region-quiz"
 		data-wp-watch---initQuestion="callbacks.initQuestion"
 		data-wp-watch---log="callbacks.log"
-		data-wp-watch---startTimer="callbacks.startTimer"
+		data-wp-watch--startTimer="callbacks.startTimer"
 		<?php echo wp_kses_data( wp_interactivity_data_wp_context( $context ) ); ?>
 	>	
 		<div>
 			<?php echo wp_kses_post( $content ); ?>
 		</div>
 		<hr>
-		<div class="time-remaining">
-			<p data-wp-bind--hidden="!context.timeLimit">Time limit: <span data-wp-text="context.timeLimit"></span></p>
-			<p data-wp-bind--hidden="!state.timer">Time remaining: <span data-wp-text="state.timer"></span></p>
+		<div>
+			<p data-wp-text="state.timerText"></p>
 		</div>
 	</div>
 	<!-- <button data-wp-on--click="actions.log">Log</button> -->
