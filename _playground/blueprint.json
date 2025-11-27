@@ -10,7 +10,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "git:directory",
-        "url": "https://github.com/juanma-wp/interactivity-router-region-quiz.",
+        "url": "https://github.com/juanma-wp/interactivity-router-region-quiz",
         "ref": "HEAD",
         "path": "."
       },
@@ -42,7 +42,7 @@
       "step": "importWxr",
       "file": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/WordPress/block-development-examples/trunk/plugins/interactivity-router-2f43f8/_playground/export.xml"
+        "url": "https://raw.githubusercontent.com/juanma-wp/interactivity-router-region-quiz/trunk/_playground/export.xml"
       }
     }
   ]
