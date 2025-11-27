@@ -28,25 +28,31 @@ const { state } = store("interactivity-router-region-quiz", {
       event.preventDefault();
 
       const { actions } = yield import("@wordpress/interactivity-router");
-      console.log(ref);
-      console.log(ref.href);
-
       yield actions.navigate(ref.href);
     }),
-    // log: () => {
-    // 	console.log("log");
-    // 	const ctxServer = getServerContext();
-    // 	const ctx = getContext();
-    // 	console.log("serverContext", ctxServer);
-    // 	console.log("context", ctx);
-    // },
   },
   callbacks: {
+    log: () => {
+      const contextServer = getServerContext();
+      const stateServer = getServerState();
+      const { timeLimit } = contextServer;
+      console.log("⏱️ timeLimit", timeLimit);
+      if (stateServer.extraData) {
+        console.log("👀 We have extraData!", stateServer.extraData);
+      }
+    },
     initQuestion: () => {
-      const { currentSlug, timeLimit } = getServerContext();
+      const contextServer = getServerContext();
+      const stateServer = getServerState();
+      const { currentSlug, timeLimit } = contextServer;
       const ctx = getContext();
       ctx.timeLimit = timeLimit;
       state.visitedQuestionSlugs.push(currentSlug);
+      console.log("--------------------------------");
+      console.log("🔴 stateServer", stateServer);
+      console.log("🔴 contextServer", contextServer);
+      console.log("🔵 state", state);
+      console.log("🔵 ctx", ctx);
     },
   },
 });

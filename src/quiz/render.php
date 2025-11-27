@@ -36,33 +36,24 @@ $random_question_slugs = array_map(
 );
 $time_limit            = $attributes['timeLimit'];
 
-// Log the current page URL/slug
-$current_url = home_url( $_SERVER['REQUEST_URI'] );
-error_log( 'Current page URL: ' . $current_url );
+// Default state for all pages
+$state = array(
+	'randomQuestionSlugs' => $random_question_slugs,
+	'defaultField'        => 'default value',
+);
 
-// Get just the slug/path
-$current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
-error_log( 'Current page slug/path: ' . $current_slug );
-
-// Get the server URL domain
-$server_url_domain = parse_url( home_url(), PHP_URL_HOST );
-error_log( 'Server URL domain: ' . $server_url_domain );
-
-// Also log the post slug if available
-global $post;
-if ( $post ) {
-	error_log( 'Current post slug: ' . $post->post_name );
-	error_log( 'Current post ID: ' . $post->ID );
+// Add slug-specific properties
+if ( $current_slug === 'question-1' ) {
+	$state['newField']  = 'new field';
+	$state['extraData'] = 'question 1 data';
+} elseif ( $current_slug === 'question-2' ) {
+	$state['customField'] = 'question 2 specific';
 }
 
-error_log( print_r( $attributes, true ) );
-
-// Make randomQuestionSlugs available to JS state as in view.js registration (see view.js line 13)
+// Make state available to JS
 wp_interactivity_state(
 	'interactivity-router-region-quiz',
-	array(
-		'randomQuestionSlugs' => $random_question_slugs,
-	),
+	$state
 );
 
 $context = array(
@@ -80,6 +71,7 @@ $context = array(
 		data-wp-interactive="interactivity-router-region-quiz"
 		data-wp-router-region="region-example-interactivity-router-region-quiz"
 		data-wp-watch---initQuestion="callbacks.initQuestion"
+		data-wp-watch---log="callbacks.log"
 		<?php echo wp_kses_data( wp_interactivity_data_wp_context( $context ) ); ?>
 	>	
 		<div>

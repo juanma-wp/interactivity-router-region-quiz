@@ -95,27 +95,36 @@ const {
       const {
         actions
       } = yield Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! @wordpress/interactivity-router */ "@wordpress/interactivity-router"));
-      console.log(ref);
-      console.log(ref.href);
       yield actions.navigate(ref.href);
     })
-    // log: () => {
-    // 	console.log("log");
-    // 	const ctxServer = getServerContext();
-    // 	const ctx = getContext();
-    // 	console.log("serverContext", ctxServer);
-    // 	console.log("context", ctx);
-    // },
   },
   callbacks: {
+    log: () => {
+      const contextServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      const stateServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerState)();
+      const {
+        timeLimit
+      } = contextServer;
+      console.log("⏱️ timeLimit", timeLimit);
+      if (stateServer.extraData) {
+        console.log("👀 We have extraData!", stateServer.extraData);
+      }
+    },
     initQuestion: () => {
+      const contextServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      const stateServer = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerState)();
       const {
         currentSlug,
         timeLimit
-      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getServerContext)();
+      } = contextServer;
       const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
       ctx.timeLimit = timeLimit;
       state.visitedQuestionSlugs.push(currentSlug);
+      console.log("--------------------------------");
+      console.log("🔴 stateServer", stateServer);
+      console.log("🔴 contextServer", contextServer);
+      console.log("🔵 state", state);
+      console.log("🔵 ctx", ctx);
     }
   }
 });

@@ -1,35 +1,147 @@
 # Interactive Router Regions Quiz
 
-This example demonstrates how to use regions with the `@wordpress/interactivity-router` package (see [video](https://youtu.be/ffbTQ1jv-ZA))
+An interactive quiz WordPress block demonstrating client-side routing using the WordPress Interactivity API router functionality with regions.
 
-<!-- Please, do not remove these @TABLE EXAMPLES BEGIN and @TABLE EXAMPLES END comments or modify the table inside. This table is automatically generated from the data at _data/examples.json and _data/tags.json -->
-<!-- @TABLE EXAMPLES BEGIN -->
-| Example | <span style="display: inline-block; width:250px">Description</span> | Tags |Download .zip | Live Demo |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Interactivity Router (regions) example](https://github.com/WordPress/block-development-examples/tree/trunk/plugins/interactivity-router-2f43f8) | Shows how to implement client-side routing in blocks using the WordPress Interactivity API router functionality. | <small><code><a href="https://WordPress.github.io/block-development-examples/?tags=interactivity-api">interactivity-api</a></code></small> <small><code><a href="https://WordPress.github.io/block-development-examples/?tags=interactivity-router">interactivity-router</a></code></small> | [📦](https://github.com/WordPress/block-development-examples/releases/download/latest/interactivity-router-2f43f8.zip "Install the plugin on any WordPress site using this zip and activate it to see the example in action") | [![](https://raw.githubusercontent.com/WordPress/block-development-examples/trunk/_assets/icon-wp.svg)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/WordPress/block-development-examples/trunk/plugins/interactivity-router-2f43f8/_playground/blueprint.json "Click here to access a live demo of this example" ) |
-<!-- @TABLE EXAMPLES END -->
+## Overview
 
-## Understanding the Example Code
+This plugin creates an interactive quiz block that leverages WordPress's Interactivity API to provide seamless client-side navigation between quiz questions without full page reloads. It demonstrates advanced use of router regions to maintain state and provide a smooth user experience.
 
-The `interactivity-router-2f43f8` block allows to have inner blocks wrapped in the region with ID `region-example-2f43f8`. This allows to have different instances of the block with different content.
+## Features
 
-When navigation happens from a page A with region`region-example-2f43f8`to another page B with region `region-example-2f43f8` and that navigation is done via using `actions.navigate` (from `wordpress/interactivity-router`), then the content from region `region-example-2f43f8` on B is brought to region `region-example-2f43f8` on A. The URL is also update in the client side.
+- **Client-Side Routing**: Navigate between quiz questions without page refresh using `@wordpress/interactivity-router`
+- **State Management**: Tracks visited questions and maintains quiz state across navigation
+- **Router Regions**: Uses `data-wp-router-region` to update specific content areas dynamically
+- **Random Question Selection**: Automatically selects random questions from a pool for each quiz session
+- **Time Limit Support**: Configurable time limits for quiz completion
+- **Visual Feedback**: Shows visited questions with different styling
 
-This example contains:
+## Technical Implementation
 
--   A block that can contain [inner blocks](https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/nested-blocks-inner-blocks/)
--   A block with attributes `prev` and `next` and Inspector controls to edit this values
--   The markup used in `render.php` uses the directive `data-wp-router-region` to establish a router region which content may vary on each instance of the block.
+### Block Structure
 
-## Related resources
+The quiz block uses the following key components:
 
-Check the following resources for more info about the Interactivity API:
+- **PHP Rendering** (`render.php`):
+  - Generates random question selection server-side
+  - Sets up initial state with `wp_interactivity_state()`
+  - Creates router region for dynamic content updates
 
--   [Interactivity API docs](https://github.com/WordPress/gutenberg/tree/trunk/packages/interactivity/docs)
--   [Interactivity API Examples](https://wordpress.github.io/block-development-examples?tags=interactivity-api&operator=isAny)
--   [“Interactivity API” category](https://github.com/WordPress/gutenberg/discussions/categories/interactivity-api) in Gutenberg repo discussions
+- **JavaScript View** (`view.js`):
+  - Manages client-side state for visited questions
+  - Handles navigation events with `withSyncEvent`
+  - Updates UI based on quiz progress
 
----
+### Key Directives Used
 
-> **Note**
-> Check the [Start Guide for local development with the examples](https://github.com/WordPress/block-development-examples/wiki/Examples#start-guide-for-local-development-with-the-examples)
+- `data-wp-interactive`: Establishes the interactive namespace
+- `data-wp-router-region`: Defines content area for client-side updates
+- `data-wp-watch`: Watches for changes and triggers callbacks
+- `data-wp-on--click`: Handles click events for navigation
+- `data-wp-bind--href`: Dynamically binds href attributes
+- `data-wp-class--is-visited`: Conditionally applies CSS classes
+- `data-wp-text`: Updates text content dynamically
+
+## Installation
+
+1. Clone or download this repository into your WordPress plugins directory:
+   ```bash
+   cd wp-content/plugins/
+   git clone [repository-url] interactivity-router-region-quiz
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Build the block:
+   ```bash
+   npm run build
+   ```
+
+4. Activate the plugin in your WordPress admin panel
+
+## Usage
+
+1. Create quiz question pages (e.g., `/question-1`, `/question-2`, etc.)
+2. Add the "Interactivity Router Region Quiz" block to your quiz page and question pages
+3. Configure the time limit in the block settings
+4. The block will automatically:
+   - Select random questions from the pool
+   - Track visited questions
+   - Enable smooth navigation between questions
+
+## Development
+
+### Prerequisites
+
+- WordPress 6.1 or higher
+- PHP 7.0 or higher
+- Node.js and npm
+
+### Development Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Start development build with watch mode
+npm run start
+
+# Create production build
+npm run build
+
+# Run linting
+npm run lint
+
+# Format code
+npm run format
+```
+
+### Project Structure
+
+```
+interactivity-router-region-quiz/
+├── build/                  # Compiled assets
+│   └── quiz/
+│       ├── block.json     # Block metadata
+│       ├── render.php     # Server-side rendering
+│       ├── view.js        # Client-side interactivity
+│       └── style-index.css # Block styles
+├── src/                    # Source files
+│   └── quiz/
+│       ├── edit.js        # Block editor interface
+│       ├── index.js       # Block registration
+│       ├── style.scss     # Block styles (source)
+│       └── view.js        # Client-side logic (source)
+├── plugin.php             # Main plugin file
+├── package.json           # Node dependencies
+└── README.md              # This file
+```
+
+## How It Works
+
+1. **Initial Load**: When the quiz page loads, the PHP renderer selects random questions and initializes the state
+2. **Navigation**: Clicking on question links triggers the Interactivity Router's `navigate` action
+3. **Content Update**: Only the router region content updates, maintaining the rest of the page structure
+4. **State Persistence**: The JavaScript state tracks visited questions across navigation
+5. **Visual Feedback**: Visited questions are marked with a CSS class for styling
+
+## Related Resources
+
+- [WordPress Interactivity API Documentation](https://github.com/WordPress/gutenberg/tree/trunk/packages/interactivity/docs)
+- [Interactivity API Examples](https://wordpress.github.io/block-development-examples?tags=interactivity-api)
+- [Block Editor Handbook](https://developer.wordpress.org/block-editor/)
+- [WordPress Interactivity Router Package](https://www.npmjs.com/package/@wordpress/interactivity-router)
+
+## License
+
+GPL-2.0-or-later
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+## Credits
+
+Created as an example for the WordPress block development community.
