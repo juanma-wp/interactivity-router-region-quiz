@@ -10,7 +10,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "git:directory",
-        "url": "https://github.com/juanma-wp/-interactivity-router-region-quiz.",
+        "url": "https://github.com/juanma-wp/interactivity-router-region-quiz.",
         "ref": "HEAD",
         "path": "."
       },
