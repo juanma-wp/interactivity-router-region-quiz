@@ -47,13 +47,19 @@ $state = array(
 $current_url  = home_url( $_SERVER['REQUEST_URI'] );
 $current_slug = trim( parse_url( $current_url, PHP_URL_PATH ), '/' );
 
-// Add slug-specific properties
+// Add slug-specific properties.
 if ( $current_slug === 'question-1' ) {
-	$state['newField']  = 'new field';
+	$state['newField1'] = 'new field';
 	$state['extraData'] = 'question 1 data';
 } elseif ( $current_slug === 'question-2' ) {
-	$state['customField'] = 'question 2 specific';
+	$state['customField2'] = 'question 2 specific';
+} elseif ( $current_slug === 'question-3' ) {
+	$state['customField3'] = 'question 3 specific';
+} elseif ( $current_slug === 'question-4' ) {
+	$state['customField4'] = 'question 4 specific';
 }
+
+
 
 // Make state available to JS
 wp_interactivity_state(
@@ -72,18 +78,21 @@ $context = array(
 	<?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>
 	data-wp-interactive="interactivity-router-region-quiz"
 >
-	<div 
+	<div
 		data-wp-interactive="interactivity-router-region-quiz"
 		data-wp-router-region="region-example-interactivity-router-region-quiz"
 		data-wp-watch---initQuestion="callbacks.initQuestion"
 		data-wp-watch---log="callbacks.log"
+		data-wp-watch--startTimer="callbacks.startTimer"
 		<?php echo wp_kses_data( wp_interactivity_data_wp_context( $context ) ); ?>
 	>	
 		<div>
 			<?php echo wp_kses_post( $content ); ?>
 		</div>
 		<hr>
-		<p>Time limit: <span data-wp-text="context.timeLimit"></span></p>
+		<div>
+			<p data-wp-text="state.timerText"></p>
+		</div>
 	</div>
 	
 	<template data-wp-each="state.randomQuestionSlugs">
