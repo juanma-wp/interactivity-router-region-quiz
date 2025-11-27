@@ -38,12 +38,11 @@ const { state } = store( 'interactivity-router-region-quiz', {
 			const ctx = getContext();
 			console.log("serverContext", ctxServer);
 			console.log("context", ctx);
+			console.log("state", state);
 			ctx.timeLimit = ctxServer.timeLimit;
 			console.log("context", ctx);
-
-			const { ref } = getElement();
-			console.log("ref", ref);
-			state.visitedQuestionSlugs.push( ref.href );
+			const {currentSlug} = ctxServer;
+			state.visitedQuestionSlugs.push(currentSlug);
 			console.log("state", state);
 		},
 	},

@@ -12,10 +12,10 @@
  */
 
 $question_slugs = array(
-	'https://streams.wp.local/question-1',
-	'https://streams.wp.local/question-2',
-	'https://streams.wp.local/question-3',
-	'https://streams.wp.local/question-4',
+	'question-1',
+	'question-2',
+	'question-3',
+	'question-4',
 );
 
 if ( ! function_exists( 'get_random_items' ) ) {
@@ -25,8 +25,32 @@ if ( ! function_exists( 'get_random_items' ) ) {
 		return array_slice( $copy, 0, min( $count, count( $copy ) ) );
 	}
 }
-$random_question_slugs = get_random_items( $question_slugs, 2 );
+$random_slugs = get_random_items( $question_slugs, 2 );
+
+// Build full URLs from the random slugs
+$random_question_slugs = array_map( function( $slug ) {
+	return home_url( '/' . $slug );
+}, $random_slugs );
 $time_limit            = $attributes['timeLimit'];
+
+// Log the current page URL/slug
+$current_url = home_url( $_SERVER['REQUEST_URI'] );
+error_log( 'Current page URL: ' . $current_url );
+
+// Get just the slug/path
+$current_slug = parse_url( $current_url, PHP_URL_PATH );
+error_log( 'Current page slug/path: ' . $current_slug );
+
+// Get the server URL domain
+$server_url_domain = parse_url( home_url(), PHP_URL_HOST );
+error_log( 'Server URL domain: ' . $server_url_domain );
+
+// Also log the post slug if available
+global $post;
+if ( $post ) {
+	error_log( 'Current post slug: ' . $post->post_name );
+	error_log( 'Current post ID: ' . $post->ID );
+}
 
 error_log( print_r( $attributes, true ) );
 
@@ -38,7 +62,10 @@ wp_interactivity_state(
 	),
 );
 
-$context = array( 'timeLimit' => $time_limit );
+$context = array(
+	'timeLimit'   => $time_limit,
+	'currentSlug' => $current_slug,
+);
 
 ?>
 

@@ -102,13 +102,13 @@ const {
       const ctx = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
       console.log("serverContext", ctxServer);
       console.log("context", ctx);
+      console.log("state", state);
       ctx.timeLimit = ctxServer.timeLimit;
       console.log("context", ctx);
       const {
-        ref
-      } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getElement)();
-      console.log("ref", ref);
-      state.visitedQuestionSlugs.push(ref.href);
+        currentSlug
+      } = ctxServer;
+      state.visitedQuestionSlugs.push(currentSlug);
       console.log("state", state);
     }
   }
